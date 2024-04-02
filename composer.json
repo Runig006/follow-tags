@@ -1,6 +1,7 @@
 {
     "name": "fof/follow-tags",
-    "description": "Follow tags and be notified of new discussions and replies",
+    "description": "Follow tags and be notified of new discussions and replies. Custom to allow events to blog events",
+    "version": "1.0.0",
     "keywords": [
         "flarum"
     ],
@@ -46,8 +47,8 @@
             "category": "feature",
             "icon": {
                 "name": "fas fa-user-tag",
-                "backgroundColor": "#e74c3c",
-                "color": "#fff"
+                "backgroundColor": "#ff7700",
+                "color": "#ffffff"
             },
             "optional-dependencies": [
                 "flarum/subscriptions",

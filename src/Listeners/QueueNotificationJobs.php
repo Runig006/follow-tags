@@ -22,6 +22,11 @@ class QueueNotificationJobs
 {
     public function subscribe(Dispatcher $events)
     {
+        if(class_exists("V17Development\FlarumBlog\Event\BlogMetaSaving")){
+            $events->listen("V17Development\FlarumBlog\Event\BlogMetaSaving", [$this, 'whenMetasApproved']);
+        }
+
+
         $events->listen(Started::class, [$this, 'whenDiscussionStarted']);
         $events->listen(Saving::class, [$this, 'whenPostCreated']);
         $events->listen(PostWasApproved::class, [$this, 'whenPostApproved']);
@@ -74,5 +79,14 @@ class QueueNotificationJobs
         resolve('flarum.queue.connection')->push(
             new Jobs\SendNotificationWhenDiscussionIsReTagged($event->actor, $event->discussion)
         );
+    }
+
+    public function whenMetasApproved($event){
+        $meta = $event->blogMeta;
+        if($meta->is_pending_review == false){
+            resolve('flarum.queue.connection')->push(
+                new Jobs\SendNotificationWhenDiscussionIsStarted($meta->discussion),
+            );
+        }
     }
 }
